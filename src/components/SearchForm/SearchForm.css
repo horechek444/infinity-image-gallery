@@ -1,0 +1,35 @@
+.search-form {
+  margin-bottom: 50px;
+}
+
+.search-form__input {
+  min-width: 400px;
+  border-radius: 50px;
+  padding: 15px 20px;
+  border: 1px solid #fff;
+  outline: none;
+  margin-right: 12px;
+  font-size: 18px;
+  transition: 0.3s ease border-color;
+}
+
+.search-form__input:active,
+.search-form__input:focus {
+  border-color: #999;
+}
+
+.search-form__button {
+  padding: 15px 20px;
+  border-radius: 50px;
+  border: none;
+  background: #222;
+  color: #bbb;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+
+.search-form__button:hover {
+  background: #111;
+  color: #eee;
+}

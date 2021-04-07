@@ -1,6 +1,7 @@
 import React from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import './App.css';
+import Images from "./components/Images/Images";
+import SearchForm from "./components/SearchForm/SearchForm";
 
 const accessKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
 
@@ -9,13 +10,9 @@ const App = () => {
   const [page, setPage] = React.useState(1);
   const [query, setQuery] = React.useState('');
 
-  React.useEffect(() => {
-    getPhotos();
-  }, [page]);
-
-  const getPhotos = () => {
-    let apiUrl = `https://api.unsplash.com/photos?`;
-    if (query) apiUrl = `https://api.unsplash.com/search/photos?&lang=ru&query=${query}`;
+  const getPhotos = React.useCallback(() => {
+    let apiUrl = `https://api.unsplash.com/photos?&lang=ru`;
+    if (query) apiUrl = `https://api.unsplash.com/search/photos?&query=${query}`;
     apiUrl += `&page=${page}`;
     apiUrl += `&client_id=${accessKey}`;
 
@@ -28,7 +25,11 @@ const App = () => {
         setImages((images) => [...images, ...imagesFromApi]);
       })
       .catch(console.error);
-  }
+  }, [page, query]);
+
+  React.useEffect(() => {
+    getPhotos();
+  }, [page, getPhotos]);
 
   const searchPhotos = (e) => {
     e.preventDefault();
@@ -45,33 +46,21 @@ const App = () => {
     </a>
   }
 
+  const handleSetPage = () => {
+    setPage((page) => page + 1);
+  };
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <div className="app">
-      <h1>Галерея изображений Unsplash</h1>
+      <h1 className="main-title">Галерея изображений Unsplash</h1>
 
-      <form onSubmit={searchPhotos}>
-        <input
-          type="text"
-          placeholder="Найти картинку в Unsplash"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button>Найти</button>
-      </form>
+      <SearchForm handleChange={handleChange} query={query} searchPhotos={searchPhotos} />
 
-      <InfiniteScroll
-        dataLength={images.length}
-        next={() => setPage((page) => page + 1)}
-        hasMore={true}
-        loader={<h4>Loading...</h4>}>
-        <div className="image-grid">
-          {images.map((image) => (
-            <a className="image" key={image.id} href={image.links.html} target="_blank" rel="noopener noreferrer">
-              <img src={image.urls.regular} alt={image.alt_description} />
-            </a>
-          ))}
-        </div>
-      </InfiniteScroll>
+      <Images images={images} handleSetPage={handleSetPage} />
     </div>
   );
 }
