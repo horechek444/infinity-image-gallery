@@ -3,8 +3,6 @@ import './App.css';
 import Images from "./components/Images/Images";
 import SearchForm from "./components/SearchForm/SearchForm";
 
-const accessKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
-
 const App = () => {
   const [images, setImages] = React.useState([]);
   const [page, setPage] = React.useState(1);
@@ -14,7 +12,7 @@ const App = () => {
     let apiUrl = `https://api.unsplash.com/photos?&lang=ru`;
     if (query) apiUrl = `https://api.unsplash.com/search/photos?&query=${query}`;
     apiUrl += `&page=${page}`;
-    apiUrl += `&client_id=${accessKey}`;
+    apiUrl += `&client_id=KfuzOlNeX_xWNCzwngb9qH7dOMIIIfROhUYSpR91qgM`;
 
     fetch(apiUrl)
       .then((res) => res.json())
