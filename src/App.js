@@ -35,14 +35,14 @@ const App = () => {
     getPhotos();
   }
 
-  if (!accessKey) {
-    return <a
-      href="https://unsplash.com/developers"
-      className="error"
-    >
-      Необходимо добавить Unsplash API Key
-    </a>
-  }
+  // if (!accessKey) {
+  //   return <a
+  //     href="https://unsplash.com/developers"
+  //     className="error"
+  //   >
+  //     Необходимо добавить Unsplash API Key
+  //   </a>
+  // }
 
   const handleSetPage = () => {
     setPage((page) => page + 1);
